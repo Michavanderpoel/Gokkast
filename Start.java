@@ -48,7 +48,7 @@ public class Start {
 			
 			for(Schijf schijf: gokkast.getSchijven()) {
 				
-				System.out.println(schijfNummer + ": " + schijf.getSlot() + " ("+schijf.getSlotValue()+" bitcoin)");
+				System.out.println(schijfNummer + ": " + schijf.getCurrentSlot() + " ("+schijf.getSlotValue()+" bitcoin)");
 				
 				schijfNummer++;
 			}

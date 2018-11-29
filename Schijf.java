@@ -16,7 +16,7 @@ public class Schijf {
 		schijf.put(SLOTS.MELOEN, 5);
 		schijf.put(SLOTS.SE7EN, 7);
 		schijf.put(SLOTS.KERS, 9);
-		schijf.put(SLOTS.KLOK, 12);
+		schijf.put(SLOTS.KLOK, 11);
 		schijf.put(SLOTS.BAR, 15);
 	}
 		
@@ -31,7 +31,7 @@ public class Schijf {
 	
 	public void setSlot(SLOTS slot) { this.slot = slot; }
 	
-	public SLOTS getSlot() { return this.slot; }
+	public SLOTS getCurrentSlot() { return this.slot; }
 	
 	public SLOTS getSlotName(int slotNummer) { return SLOTS.values()[slotNummer]; }
 	

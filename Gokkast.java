@@ -44,7 +44,7 @@ public class Gokkast {
 		
 		for(Schijf schijf: gokkast.getSchijven()) {
 			
-			slots[schijfNummer] = schijf.getSlot();
+			slots[schijfNummer] = schijf.getCurrentSlot();
 			
 			schijfNummer++;
 		}
@@ -72,7 +72,7 @@ public class Gokkast {
 		
 		if(schijf.getSchijfVasthouden()) { 
 			
-			schijf.getSlot();
+			schijf.getCurrentSlot();
 			
 		} else { 
 			
