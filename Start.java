@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Start {
@@ -65,9 +66,13 @@ public class Start {
 				
 				System.out.println("\n Bitcoins in je wallet: " + gokkast.getSaldo());
 				
-				if(gokkast.getSaldo() < 0) {
+				if(gokkast.getSaldo() <= 0) {
 					
-					System.out.println("\n *** all your bitcoin are belong to us ***");
+					if(new Random().nextInt(10) > 5) {
+						System.out.println("\n *** all your bitcoin are belong to us ***");
+					} else {
+						System.out.println("\n *** your wallet has been hacked ***");
+					}
 					
 				} else {
 					
