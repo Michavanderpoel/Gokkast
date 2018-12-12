@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class Gokkast {
 	private static int STARTSALDO = 150;
 	private static int muntinworp = 20;
@@ -11,9 +13,9 @@ public class Gokkast {
 	
 	public Gokkast() {
 		
-		this.gokkastName = "The Bitcoin Bandit (tm)";
+		setGokkastName("The Bitcoin Bandit (tm)");
 		
-		this.saldo = STARTSALDO;
+		setSaldo(STARTSALDO);
 		
 		for(int i = 0; i < standaardAantalSchijven; i++) { schijven.add(new Schijf()); }
 	}
@@ -33,6 +35,8 @@ public class Gokkast {
 	
 	public int getSaldo() { return this.saldo; }
 	
+	private void setSaldo(int bedrag) { this.saldo = bedrag; }
+	
 	public List<Schijf> getSchijven() { return this.schijven; }
 
 	
@@ -44,7 +48,7 @@ public class Gokkast {
 		
 		for(Schijf schijf: gokkast.getSchijven()) {
 			
-			slots[schijfNummer] = schijf.getCurrentSlot();
+			slots[schijfNummer] = schijf.getSlotName();
 			
 			schijfNummer++;
 		}
@@ -72,7 +76,7 @@ public class Gokkast {
 		
 		if(schijf.getSchijfVasthouden()) { 
 			
-			schijf.getCurrentSlot();
+			schijf.getSlotName();
 			
 		} else { 
 			
@@ -81,29 +85,83 @@ public class Gokkast {
 	}
 
 	public int calculateScore(Schijf.SLOTS[] slots) {
-		this.saldo -= muntinworp;
+		setSaldo(getSaldo() - muntinworp);
 		int winst = 0;
-		int gelijkeSlots = 0;
-		int i = 0;
+		int highestSlotValue = 0;
+		int aantalGelijkeSlots = 0;
+		int aantalBARSlots = 0;
+		boolean isBAR = false;
 		
-		for(Schijf.SLOTS slot: slots) {
+		int i = 0;
+		for(Schijf.SLOTS slot_i: slots) {
+			
+			if(slot_i == Schijf.SLOTS.BAR) { 
+				
+				isBAR = true; 
+				aantalBARSlots++;
+			
+			} else { 
+				
+				isBAR = false; 
+			}
 
-			for (int j = 0; j < slots.length; j++) {
+			int slotValue = schijven.get(i).getSlotValue();
+
+			if(slotValue > highestSlotValue && !isBAR) {
+				
+				highestSlotValue = slotValue;
+			}
+
+			int j = 0;
+			for(Schijf.SLOTS slot_j: slots) {
 								
-				if(j != i && (slots[j] == slot || slots[j] == Schijf.SLOTS.BAR) ) {
-					
-					gelijkeSlots++; 
-					
-					winst = schijven.get(i).getSlotValue();
+				if(i != j) {
+										
+					if(slot_i == slot_j || isBAR || slot_j == Schijf.SLOTS.BAR) {
+						
+						if(slot_i == slot_j || isBAR ) {
+								
+							aantalGelijkeSlots++;
+						}
+						
+						if(slotValue > highestSlotValue) {
+							
+							if (!isBAR) { 
+								
+								highestSlotValue = slotValue;
+							}
+						}
+					}
 				}
+				
+				j++;
 			}
 
 			i++;
 		}
+		
 
-		winst = gelijkeSlots * winst;
+		// JACKPOT
+		if(aantalGelijkeSlots >= slots.length) {
+			
+			aantalGelijkeSlots = slots.length;
+			
+			System.out.println("\n J A C K P O T ! \n");
+			
+			if(aantalBARSlots == slots.length) {
+				
+				highestSlotValue = schijven.get(0).getSlotValue(Schijf.SLOTS.BAR);
+			}
+			
+			aantalGelijkeSlots *= 2;
+		}
 
-		this.saldo += winst;
+		if(aantalGelijkeSlots > 1) { 
+			
+			winst = highestSlotValue * aantalGelijkeSlots;
+		}
+		
+		setSaldo(getSaldo() + winst);
 		
 		return winst;
 	}

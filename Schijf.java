@@ -31,7 +31,7 @@ public class Schijf {
 	
 	public void setSlot(SLOTS slot) { this.slot = slot; }
 	
-	public SLOTS getCurrentSlot() { return this.slot; }
+	public SLOTS getSlotName() { return this.slot; }
 	
 	public SLOTS getSlotName(int slotNummer) { return SLOTS.values()[slotNummer]; }
 	

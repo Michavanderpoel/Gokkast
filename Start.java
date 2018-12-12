@@ -6,20 +6,22 @@ public class Start {
 	public static void main(String[] args) {		
 		Gokkast gokkast = new Gokkast(3);
 		String gameAction = "";
-		boolean firstZwengel = true;
+		boolean firstZwengel = true; // een beurt bestaat uit twee zwengels: true en false
 		Scanner input = new Scanner(System.in);
 		
 		System.out.println(gokkast.getGokkastName()+"\n");
 		
+		// Blijf deze loop herhalen als niet wordt (U)itbetaald en het saldo voldoende is:
 		while(!gameAction.equals("U") && gokkast.getSaldo() > 0) {
 
-			// Geef alle schijven een draai (bij de start en na het geven van een "Enter");
+			// Geef alle schijven een draai (na het geven van een "Enter" en bij de start van iedere beurt);
 			if(gameAction.isEmpty() || firstZwengel) {
 				
 				gokkast.geefZwengel();
 			
 			// Draai alleen de schijven die niet zijn vastgezet:
 			} else {
+				
 				String[] schijvenVasthouden = gameAction.split(",");
 				
 				int schijfNummer = 0;
@@ -30,7 +32,7 @@ public class Start {
 					// Is het schijfnummer gelijk aan de invoer van de speler? dan niet draaien, anders wel:
 					for(String schijfVasthouden: schijvenVasthouden) {
 						
-						try{
+						try {
 							if(Integer.parseInt(schijfVasthouden)==schijfNummer) { 
 							
 								schijf.setSchijfVasthouden();
@@ -49,7 +51,7 @@ public class Start {
 			
 			for(Schijf schijf: gokkast.getSchijven()) {
 				
-				System.out.println(schijfNummer + ": " + schijf.getCurrentSlot() + " ("+schijf.getSlotValue()+" bitcoin)");
+				System.out.println(schijfNummer + ": " + schijf.getSlotName() + " ("+schijf.getSlotValue()+" bitcoin)");
 				
 				schijfNummer++;
 			}
@@ -69,8 +71,11 @@ public class Start {
 				if(gokkast.getSaldo() <= 0) {
 					
 					if(new Random().nextInt(10) > 5) {
+						
 						System.out.println("\n *** all your bitcoin are belong to us ***");
+						
 					} else {
+						
 						System.out.println("\n *** your wallet has been hacked ***");
 					}
 					
